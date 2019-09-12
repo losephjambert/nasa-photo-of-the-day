@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import MediaContainer from './components/Media/MediaContainer';
-import axios from 'axios';
-import moment from 'moment';
+import React, { useState, useEffect } from "react";
+import MediaContainer from "./components/Media/MediaContainer";
+import axios from "axios";
+import moment from "moment";
 
 const url = `https://api.nasa.gov/planetary/apod?api_key=QYV95kw1NSpdnVcv3dE3zn4UEOlfuhbT69Z2ox3s&date=`;
 
@@ -11,22 +11,21 @@ function App() {
   const [media, setMedia] = useState({});
   const [currentDate, setCurrentDate] = useState(moment());
   const [currentDateIndex, setCurrentDateIndex] = useState(0);
-  const [dateWindow, setDateWindow] = useState([moment().subtract(1, 'days'), moment(), null]);
 
-  async function getData(arr) {
-    const [previous, current, next] = await Promise.all(arr.map(item => axios.get(item)));
-  }
+  // async function getData(arr) {
+  //   const [previous, current, next] = await Promise.all(
+  //     arr.map(item => axios.get(item))
+  //   );
+  // }
 
   useEffect(() => {
     // const fetchData = async () => {
-    //   const data = await getData(dateWindow);
+    //   const data = await getData([currentDate]);
     // };
     axios
       .get(url + currentDate.format(`YYYY-MM-DD`))
       .then(response => {
-        setMedia(prevState => {
-          return { ...prevState, currentDay: response.data };
-        });
+        setMedia(response.data);
       })
       .catch(error => {
         console.log(`there was an error fetching ${url}`);
@@ -35,17 +34,22 @@ function App() {
   }, [currentDate]);
 
   useEffect(() => {
-    setCurrentDate(moment().subtract(currentDateIndex, 'days'));
+    setCurrentDate(moment().subtract(currentDateIndex, "days"));
   }, [currentDateIndex]);
 
   return (
     <>
       <MediaContainer media={media} />
       <p>{currentDate.format(`YYYY-MM-DD`)}</p>
-      <button onClick={() => setCurrentDateIndex(currentDateIndex + 1)}>Previous Day</button>
+      <button onClick={() => setCurrentDateIndex(currentDateIndex + 1)}>
+        Previous Day
+      </button>
       <button
         onClick={() => setCurrentDateIndex(currentDateIndex - 1)}
-        disabled={currentDate.format(`YYYY-MM-DD`) === moment().format(`YYYY-MM-DD`)}>
+        disabled={
+          currentDate.format(`YYYY-MM-DD`) === moment().format(`YYYY-MM-DD`)
+        }
+      >
         Next Day
       </button>
     </>

@@ -9,8 +9,8 @@ function App() {
   const format = `YYYY-MM-DD`;
 
   const [media, setMedia] = useState({});
-  const [currentDate, setCurrentDate] = useState(moment(new Date()));
-  const [count, setCount] = useState(0);
+  const [currentDate, setCurrentDate] = useState(moment());
+  const [currentDateIndex, setCurrentDateIndex] = useState(0);
 
   async function getData(urls) {
     const [previous, current, next] = await Promise.all(urls.map(url => axios.get(url)));
@@ -34,16 +34,16 @@ function App() {
   }, [currentDate]);
 
   useEffect(() => {
-    setCurrentDate(moment().subtract(count, 'days'));
-  }, [count]);
+    setCurrentDate(moment().subtract(currentDateIndex, 'days'));
+  }, [currentDateIndex]);
 
   return (
     <>
       <MediaContainer media={media} />
       <p>{currentDate.format(`YYYY-MM-DD`)}</p>
-      <button onClick={() => setCount(count + 1)}>Previous Day</button>
+      <button onClick={() => setCurrentDateIndex(currentDateIndex + 1)}>Previous Day</button>
       <button
-        onClick={() => setCount(count - 1)}
+        onClick={() => setCurrentDateIndex(currentDateIndex - 1)}
         disabled={currentDate.format(`YYYY-MM-DD`) === moment().format(`YYYY-MM-DD`)}>
         Next Day
       </button>

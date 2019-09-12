@@ -11,14 +11,15 @@ function App() {
   const [media, setMedia] = useState({});
   const [currentDate, setCurrentDate] = useState(moment());
   const [currentDateIndex, setCurrentDateIndex] = useState(0);
+  const [dateWindow, setDateWindow] = useState([moment().subtract(1, 'days'), moment(), null]);
 
-  async function getData(urls) {
-    const [previous, current, next] = await Promise.all(urls.map(url => axios.get(url)));
+  async function getData(arr) {
+    const [previous, current, next] = await Promise.all(arr.map(item => axios.get(item)));
   }
 
   useEffect(() => {
     // const fetchData = async () => {
-    //   const data = await getData(urls);
+    //   const data = await getData(dateWindow);
     // };
     axios
       .get(url + currentDate.format(`YYYY-MM-DD`))

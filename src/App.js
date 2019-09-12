@@ -6,36 +6,24 @@ import moment from 'moment';
 const url = `https://api.nasa.gov/planetary/apod?api_key=QYV95kw1NSpdnVcv3dE3zn4UEOlfuhbT69Z2ox3s&date=`;
 
 function App() {
-  const [media, setMedia] = useState({});
-  const [date, setDate] = useState(moment().format('YYYY-MM-DD'));
-
   const format = `YYYY-MM-DD`;
-  console.log(
-    'yesterday',
-    moment()
-      .subtract(1, 'days')
-      .format(format)
-  );
-  console.log('today', moment().format(format));
-  console.log(
-    'tomorrow',
-    moment()
-      .add(1, 'days')
-      .format(format)
-  );
+
+  const [media, setMedia] = useState({});
+  const [currentDate, setCurrentDate] = useState(moment(new Date()));
+  const [count, setCount] = useState(0);
 
   async function getData(urls) {
     const [previous, current, next] = await Promise.all(urls.map(url => axios.get(url)));
   }
+  console.log(currentDate.format(format));
 
   useEffect(() => {
-    const fetchData = async () => {
-      // const data = await getData(urls);
-    };
+    // const fetchData = async () => {
+    //   const data = await getData(urls);
+    // };
     axios
-      .get(url)
+      .get(url + currentDate.format(`YYYY-MM-DD`))
       .then(response => {
-        console.log(response);
         setMedia(prevState => {
           return { ...prevState, currentDay: response.data };
         });
@@ -44,11 +32,16 @@ function App() {
         console.log(`there was an error fetching ${url}`);
         console.error(error);
       });
-  }, []);
+  }, [currentDate]);
+
+  useEffect(() => {
+    setCurrentDate(moment().subtract(count, 'days'));
+  }, [count]);
 
   return (
     <>
       <MediaContainer media={media} />
+      <button onClick={() => setCount(count => count++)}>Yesterday</button>
     </>
   );
 }

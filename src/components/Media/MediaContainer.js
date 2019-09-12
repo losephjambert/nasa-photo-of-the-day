@@ -1,10 +1,12 @@
 import React from 'react';
+import Video from './Video';
+import Photo from './Photo';
 
 const MediaContainer = ({ media, isLoading }) => {
   if (isLoading) return <p>LOADING MEDIA</p>;
 
-  if (media.media_type === 'video') return <iframe src={media.url} frameBorder='0' title='video' />;
-  else return <img style={{ width: '600px' }} src={media.url} alt='img' />;
+  if (media.media_type === 'video') return <Video src={media.url} />;
+  else return <Photo src={media.url} />;
 };
 
 export default MediaContainer;

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import MediaContainer from './components/Media/MediaContainer';
 import Details from './components/Details';
+import Button from './components/Button';
 import axios from 'axios';
 import moment from 'moment';
 import styled from 'styled-components';
@@ -57,10 +58,14 @@ function App() {
       <MediaContainer media={media} isLoading={isLoading} />
       <Details date={currentDate} />
       <div>
-        <button onClick={() => handleDateChange(1)}>Previous Day</button>
-        <button onClick={() => handleDateChange(-1)} disabled={currentDate.format(format) === startdate.format(format)}>
-          Next Day
-        </button>
+        <Button onClick={handleDateChange} value={1} text={'Previous Day'} primary />
+        <Button
+          primary
+          onClick={handleDateChange}
+          value={-1}
+          text={'Next Day'}
+          disabled={currentDate.format(format) === startdate.format(format)}
+        />
       </div>
     </>
   );

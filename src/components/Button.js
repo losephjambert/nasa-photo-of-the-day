@@ -6,11 +6,12 @@ const StyledButton = styled.button`
   color: ${props => (props.primary ? "white" : "black")};
   outline: none;
   border: none;
-  box-shadow: 0 0 0 2px white;
   padding: 10px 20px;
   &:disabled {
     color: grey;
-    box-shadow: 0 0 0 2px grey;
+  }
+  &:hover {
+    cursor: pointer;
   }
   &:disabled:hover {
     cursor: not-allowed;

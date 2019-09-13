@@ -1,31 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
-const DetailsContainer = styled.section`
-  width: 95%;
-  margin: auto;
-  padding-top: 12.5vh;
-  position: relative;
-  border-right: 2px solid;
-  border-bottom: 2px solid;
-  border-left: 2px solid;
-  border-color: white;
-  &::before,
-  &::after {
-    content: "";
-    width: 2.5vw;
-    height: 2px;
-    background-color: white;
-    position: absolute;
-    top: 0;
-  }
-  &::before {
-    left: 0;
-  }
-  &::after {
-    right: 0;
-  }
-`;
 const DateContainer = styled.div`
   width: 100%;
   display: flex;
@@ -42,24 +17,35 @@ const DateInput = styled.input`
   max-width: 95%;
 `;
 const DetailsTitle = styled.h2`
-  font-size: 3rem;
+  font-size: 2.4rem;
   text-align: center;
+  margin-top: 25px;
+  margin-bottom: 50px;
 `;
 const DetailsP = styled.p`
   max-width: 650px;
-  line-height: 1.2;
-  font-size: 1.4rem;
+  line-height: 1.4;
+  font-size: 1.2rem;
+  font-family: "Tiempos";
+  margin: auto;
 `;
 
 const Details = ({ date, explanation, title }) => {
   const [dateValue, setDateValue] = useState(date);
+
+  useEffect(() => {
+    setDateValue(date);
+  }, [date]);
+
   const handleChange = e => setDateValue(e.target.value);
+
   const handleSubmit = e => {
     e.preventDefault();
     console.log("get new photo with this date: ", dateValue);
   };
+
   return (
-    <DetailsContainer>
+    <>
       <form action="" onSubmit={e => handleSubmit(e)}>
         <DateContainer>
           <DateInput
@@ -71,7 +57,7 @@ const Details = ({ date, explanation, title }) => {
       </form>
       <DetailsTitle>{title}</DetailsTitle>
       <DetailsP>{explanation}</DetailsP>
-    </DetailsContainer>
+    </>
   );
 };
 

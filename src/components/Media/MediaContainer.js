@@ -7,20 +7,22 @@ const StyledMediaContainer = styled.section`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  height: 80vh;
+  width: 80%;
+  height: 600px;
+  max-height: 600px;
   object-fit: cover;
+  margin: auto;
+  position: relative;
+  z-index: 10;
   img,
   video {
     max-width: 100%;
-    width: 90%;
     max-height: 100%;
     object-fit: contain;
   }
 `;
 
 const MediaContainer = ({ media, isLoading }) => {
-  // if (isLoading) return <p>LOADING MEDIA</p>;
   const Media =
     media.media_type === "video" ? (
       <Video src={media.url} />

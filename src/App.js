@@ -10,27 +10,48 @@ const Title = styled.h1`
   text-align: center;
   font-weight: 400;
   font-size: 1.6rem;
-  margin-top: 1vh;
-`;
-const TopContainer = styled.section`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 5;
+  margin-top: 50px;
+  margin-bottom: 50px;
 `;
 const DetailsContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding-top: 100vh;
   position: relative;
-  top: -25vh;
-  z-index: 10;
+  top: -75px;
+  z-index: 0;
+`;
+const DetailsInnerContainer = styled.section`
+  width: 90%;
+  margin: auto;
+  padding-top: 12.5vh;
+  padding-bottom: 25px;
+  position: relative;
+  border-right: 2px solid;
+  border-bottom: 2px solid;
+  border-left: 2px solid;
+  border-color: white;
+  &::before,
+  &::after {
+    content: "";
+    width: 100%;
+    height: 2px;
+    background-color: white;
+    position: absolute;
+    top: 0;
+  }
+  &::before {
+    left: 0;
+  }
+  &::after {
+    right: 0;
+  }
+`;
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 45px 3vw;
+  padding-bottom: 0;
 `;
 
 const _startdate = new moment();
@@ -52,23 +73,23 @@ const format = `YYYY-MM-DD`;
 
 function App() {
   const [startdate] = useState(_startdate);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [media, setMedia] = useState(stub);
   const [currentDate, setCurrentDate] = useState(_startdate);
 
-  // useEffect(() => {
-  //   axios
-  //     .get(url + currentDate.format(`YYYY-MM-DD`))
-  //     .then(response => {
-  //       console.log(response.data);
-  //       setMedia(response.data);
-  //       setIsLoading(isLoading => !isLoading);
-  //     })
-  //     .catch(error => {
-  //       console.log(`there was an error fetching ${url}`);
-  //       console.error(error);
-  //     });
-  // }, [currentDate]);
+  useEffect(() => {
+    axios
+      .get(url + currentDate.format(`YYYY-MM-DD`))
+      .then(response => {
+        console.log(response.data);
+        setMedia(response.data);
+        setIsLoading(isLoading => !isLoading);
+      })
+      .catch(error => {
+        console.log(`there was an error fetching ${url}`);
+        console.error(error);
+      });
+  }, [currentDate]);
 
   const handleDateChange = day => {
     setIsLoading(isLoading => !isLoading);
@@ -78,32 +99,32 @@ function App() {
 
   return (
     <>
-      <TopContainer>
-        <Title>NASA Astronomy Picture of the Day</Title>
-        <MediaContainer media={media} isLoading={isLoading} />
-      </TopContainer>
+      <Title>NASA Astronomy Picture of the Day</Title>
+      <MediaContainer media={media} isLoading={isLoading} />
       <DetailsContainer>
-        <Details
-          date={media.date}
-          explanation={media.explanation}
-          title={media.title}
-        />
+        <DetailsInnerContainer>
+          <Details
+            date={media.date}
+            explanation={media.explanation}
+            title={media.title}
+          />
+          <ButtonContainer>
+            <Button
+              onClick={handleDateChange}
+              value={1}
+              text={"< Previous Day's Image"}
+              primary
+            />
+            <Button
+              primary
+              onClick={handleDateChange}
+              value={-1}
+              text={"Next Day's Image >"}
+              disabled={currentDate.format(format) === startdate.format(format)}
+            />
+          </ButtonContainer>
+        </DetailsInnerContainer>
       </DetailsContainer>
-      <div>
-        <Button
-          onClick={handleDateChange}
-          value={1}
-          text={"Previous Day"}
-          primary
-        />
-        <Button
-          primary
-          onClick={handleDateChange}
-          value={-1}
-          text={"Next Day"}
-          disabled={currentDate.format(format) === startdate.format(format)}
-        />
-      </div>
     </>
   );
 }

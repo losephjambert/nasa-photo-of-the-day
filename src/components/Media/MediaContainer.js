@@ -1,14 +1,14 @@
-import React from 'react';
-import Video from './Video';
-import Photo from './Photo';
-import styled from 'styled-components';
+import React from "react";
+import Video from "./Video";
+import Photo from "./Photo";
+import styled from "styled-components";
 
 const StyledMediaContainer = styled.section`
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 700px;
+  height: 80vh;
   object-fit: cover;
   img,
   video {
@@ -21,12 +21,17 @@ const StyledMediaContainer = styled.section`
 
 const MediaContainer = ({ media, isLoading }) => {
   // if (isLoading) return <p>LOADING MEDIA</p>;
-  const Media = media.media_type === 'video' ? <Video src={media.url} /> : <Photo src={media.url} />;
+  const Media =
+    media.media_type === "video" ? (
+      <Video src={media.url} />
+    ) : (
+      <Photo src={media.url} />
+    );
 
   return (
-    <>
-      <StyledMediaContainer>{isLoading ? <p>LOADING MEDIA</p> : Media}</StyledMediaContainer>
-    </>
+    <StyledMediaContainer>
+      {isLoading ? <p>LOADING MEDIA</p> : Media}
+    </StyledMediaContainer>
   );
 };
 

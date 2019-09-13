@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
 const StyledButton = styled.button`
-  background-color: ${props => (props.primary ? "black" : "white")};
-  color: ${props => (props.primary ? "white" : "black")};
+  background-color: ${props => (props.primary ? 'black' : 'white')};
+  color: ${props => (props.primary ? 'white' : 'black')};
   outline: none;
   border: none;
   padding: 10px 20px;
@@ -20,11 +20,7 @@ const StyledButton = styled.button`
 
 const Button = ({ onClick, text, value, disabled, primary }) => {
   return (
-    <StyledButton
-      onClick={() => onClick(value)}
-      primary={primary}
-      disabled={disabled}
-    >
+    <StyledButton onClick={() => onClick(value)} primary={primary} disabled={disabled}>
       {text}
     </StyledButton>
   );

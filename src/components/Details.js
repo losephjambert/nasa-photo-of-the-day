@@ -39,12 +39,10 @@ const Details = ({ date, explanation, title, handleNewDate }) => {
   }, [date]);
 
   const handleChange = e => {
-    setDateValue(e.target.value);
     handleNewDate(moment(e.target.value));
   };
   const handleSubmit = e => {
     e.preventDefault();
-    console.log('get new photo with this date: ', dateValue);
   };
 
   return (
@@ -54,7 +52,7 @@ const Details = ({ date, explanation, title, handleNewDate }) => {
           <DateInput
             max={moment().format(`YYYY-MM-DD`)}
             type='date'
-            value={dateValue}
+            defaultValue={dateValue}
             onChange={e => handleChange(e)}
           />
         </DateContainer>
